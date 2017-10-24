@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <h:panelGroup rendered="#{materialControle.layoutForm}">
+        <h:form id="formMaterial">
+            <p:panel header="Cadastro de Material" style="font-size: small;font-family: cursive;">
+                <h:panelGrid id="painelGeral" columns="2">
+
+                    <p:outputLabel value="Nome:" for="nome" style="font-size: small;font-family: cursive;"/>
+                    <p:inputText id="nome" style="width:90%;"
+                                 required="true"
+                                 requiredMessage="O Nome é obrigatório"
+                                 value="#{materialControle.nome}">
+                        <p:focus for="nome"/>
+                    </p:inputText>
+                    
+                     <p:outputLabel value="Disciplina:" for="disciplina"/>
+                    
+                        <p:autoComplete id="disciplina" maxResults="5" dropdown="true"
+                                        completeMethod="#{disciplinaControle.AutoCompletePorNome}" 
+                                        value="#{materialControle.disciplina}"
+                                        converter="#{disciplinaControle.converter()}"
+                                        var="item"
+                                        itemLabel="#{item.nome}"
+                                        itemValue="#{item}"/>
+                      
+                    
+                </h:panelGrid>
+                <h:panelGrid id="painelupload" columns="1">
+                    
+                    <p:fileUpload fileUploadListener="#{materialControle.handleFileUpload}" mode="advanced" dragDropSupport="false"
+                                  label="Escolher" uploadLabel="Enviar" cancelLabel="Cancelar" 
+                                  update="messages" allowTypes="/(\.|\/)(doc|docx|xls|xlsx|ppt|pps|pdf)$/" />
+
+                         <p:growl id="messages" showDetail="true" />
+                </h:panelGrid>
+                <f:facet name="footer">
+                    <p:commandButton value="Salvar" icon="fa fa-save" style="font-size: small;font-family: cursive;"
+                                     action="#{materialControle.salvar()}"
+                                     ajax="false"/>
+
+                    <p:commandButton value="Voltar" icon="fa fa-share" style="font-size: small;font-family: cursive;"
+                                     action="#{materialControle.voltar()}"
+                                     ajax="false" immediate="true"/>
+                </f:facet>
+            </p:panel>
+        </h:form>
+    </h:panelGroup>
+</html>

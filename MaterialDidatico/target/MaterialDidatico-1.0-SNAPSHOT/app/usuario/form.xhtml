@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <h:panelGroup rendered="#{usuarioControle.layoutForm}">
+        <h:form id="formUsuario">
+            <p:panel header="Cadastro de Usuário" style="font-size: small;">
+                <h:panelGrid id="painelGeral" columns="2">
+                    <p:outputLabel value="Login:" for="login"/>
+                    <p:inputText id="login"
+                                 required="true"
+                                 requiredMessage="O login é obrigatório"
+                                 value="#{usuarioControle.entidade.login}">
+                        <p:focus for="login"/>
+                    </p:inputText>
+                    
+                    <p:outputLabel value="Nome:" for="nome"/>
+                    <p:inputText id="nome"
+                                 required="true"
+                                 requiredMessage="O nome é obrigatório"
+                                 value="#{usuarioControle.entidade.nome}">
+                        <p:focus for="login"/>
+                    </p:inputText>
+
+                    <p:outputLabel value="Senha:" for="senha"/>
+                    <p:password id="senha" match="csenha"
+                                required="true"
+                                requiredMessage="A senha é obrigatório"
+                                validatorMessage="Senha não confere"
+                                feedback="true"
+                                promptLabel="Entre com a senha" weakLabel="Fraca"
+                                goodLabel="Média" strongLabel="Forte"
+                                value="#{usuarioControle.entidade.senha}"/>
+
+                    <p:outputLabel value="Confirmação da Senha:" for="csenha"/>
+                    <p:password id="csenha" 
+                                requiredMessage="A confirmação da senha é obrigatório"
+                                required="true"
+                                value="#{usuarioControle.entidade.senha}"/>
+                    
+                    <p:outputLabel value="E-mail:" for="email"/>
+                    <p:inputText id="email"
+                                 required="true"
+                                 requiredMessage="O E-mail é obrigatório"
+                                 value="#{usuarioControle.entidade.email}"/>
+
+                    <p:outputLabel value="Nível acesso:" for="nivel" style="font-size: small;"/>
+                    <p:selectOneMenu id="nivel" value="#{usuarioControle.entidade.nivelAcesso}" style="width: 130px">
+                        <f:selectItems value="#{usuarioControle.niveisAcesso}"
+                                       var="nivel"
+                                       itemValue="#{nivel}"
+                                       itemLabel="#{nivel.descricao}"/>
+                    </p:selectOneMenu>
+                    
+                </h:panelGrid>
+                <f:facet name="footer">
+                    <p:commandButton value="Salvar" icon="fa fa-save" style="font-size: small;"
+                                     action="#{usuarioControle.salvar()}"
+                                     ajax="false"/>
+
+                    <p:commandButton value="Voltar" icon="fa fa-share" style="font-size: small;"
+                                     action="#{usuarioControle.voltar()}"
+                                     ajax="false" immediate="true"/>
+                </f:facet>
+
+            </p:panel>
+        </h:form>
+    </h:panelGroup>
+</html>

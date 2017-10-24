@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <h:head>
+        <title>SGD | Login</title>
+
+        <meta charset="utf-8" />
+        <meta http-equiv="X-UA-Conpatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+
+        <link rel="shortcut icon" type="image/x-icon" href="/MaterialDidatico/imagens/favicon.ico"/>
+        <link rel="stylesheet" href="/MaterialDidatico/css/style.css"/>
+
+        <!-- Bootstrap -->
+        <link href="/MaterialDidatico/css/login.css" rel="stylesheet"/>
+        <link href="/MaterialDidatico/css/bootstrap.min.css" rel="stylesheet"/>
+
+    </h:head>
+    <h:body>
+        <div class="imgFundo">
+            <div>
+                <h1 class="text-center login-title">Área de Acesso</h1>
+                <p class="text-center p-title">Seja Bem Vindo!</p>
+            </div>
+            <div class="container">
+                <div class="row"> 
+                    <div class="col-sm-6 col-md-4 col-md-offset-4">
+                        <div class="account-wall" style="padding: 25px;">
+                            <img class="profile-img" src="imagens/logoSGD-350.png" alt="Logomarca SGD"/>
+                            <h:form styleClass="form-signin">
+                                <p:inputText styleClass="form-control" id="login" placeholder="Usuário" value="#{loginControle.login}">
+                                    <p:focus for="login"/>
+                                </p:inputText>
+                                <p:password styleClass="form-control" id="senha" placeholder="Senha" value="#{loginControle.senha}"/>
+                                <p:commandButton styleClass="btn btn-lg btn-primary btn-block" value="Acessar" 
+                                                 action="#{loginControle.logar()}"
+                                                 ajax="false"/>
+                                <p:messages style="font-size: small;" closable="true"/>
+                                <div class="esqueciSenha">
+                                    <a href="#" class="pull-right need-help">Esqueci a senha </a><span class="clearfix"></span>
+                                </div>
+                                <div class="cadastroSenha">
+                                    <a href="#{loginControle.cadastroUsuario()}" class="new-account">Cadastro</a>
+                                </div>
+                            </h:form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div>
+            <p class="text-center p-footer">ISTW Soluções  |  Todos os direitos reservados.</p>
+        </div>
+
+        <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+        <!-- Include all compiled plugins (below), or include individual files as needed -->
+        <script src="js/bootstrap.min.js"></script>
+
+    </h:body>
+</html>

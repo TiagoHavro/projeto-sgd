@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <ui:composition template="/WEB-INF/template.xhtml">
+        <ui:define name="conteudo">
+            <h:panelGroup rendered="#{materialControle.layoutList}">
+                <h:form>
+                    <p:panel header="MATERIAL" style="font-size: small;font-family: cursive; text-align: center;">
+                        <p:dataTable id="material" value="#{materialControle.listar}"
+                                     var="item" style="font-size: small;font-family: cursive;"
+                                     paginator="true" rows="10"
+                                     paginatorPosition="bottom"
+                                     emptyMessage="Material não encontradas"
+                                     selectionMode="single"
+                                     selection="#{materialControle.entidade}"
+                                     rowKey="#{item.id}"
+                                     reflow="true">
+
+                            <p:ajax event="rowSelect" update="novo alterar excluir view"/>
+                            <p:ajax event="rowUnselect" update="novo alterar excluir view"/>
+
+                            <p:column headerText="Id">
+                                <h:outputText value="#{item.id}"/>
+                            </p:column>
+                            <p:column headerText="Nome">
+                                <h:outputText value="#{item.nome}"/>
+                            </p:column>
+                            <p:column headerText="Disciplina">
+                                <h:outputText value="#{item.disciplina.nome}"/>
+                            </p:column>
+                            <f:facet name="footer">
+                                <p:commandButton id="novo" icon="fa fa-plus" style="font-size: small;font-family: cursive;"
+                                                 value="Novo"
+                                                 actionListener="#{materialControle.novo()}"
+                                                 ajax="false"/>
+
+                                <p:commandButton id="alterar" icon="fa fa-pencil" style="font-size: small;font-family: cursive;"
+                                                 disabled="#{materialControle.entidade==null}"
+                                                 value="Alterar"
+                                                 actionListener="#{materialControle.alterar()}"
+                                                 ajax="false"/>
+
+                                <p:commandButton id="view" icon="fa fa-magic" style="font-size: small;font-family: cursive;"
+                                                 disabled="#{materialControle.entidade==null}"
+                                                 value="View"
+                                                 actionListener="#{materialControle.view()}"
+                                                 ajax="false"/>
+
+                                <p:commandButton id="excluir" icon="fa fa-trash-o" style="font-size: small;font-family: cursive;"
+                                                 disabled="#{materialControle.entidade==null}"
+                                                 value="Excluir"
+                                                 action="#{materialControle.excluir()}"
+                                                 update="message material">
+
+                                    <p:confirm header="Confirmação" 
+                                               message="Deseja excluir o registro?" 
+                                               icon="ui-icon-alert" />
+
+                                </p:commandButton>
+                            </f:facet>
+                        </p:dataTable>
+                    </p:panel>
+                </h:form>
+            </h:panelGroup>
+            <ui:include src="form.xhtml"/>
+            <ui:include src="view.xhtml"/>
+        </ui:define>
+    </ui:composition>
+</html>

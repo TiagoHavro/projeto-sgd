@@ -1,0 +1,60 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : 21/08/2017, 03:02:39
+    Author     : Sandro J. Torres
+*/
+
+#imagem {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+.main_footer{
+    width: auto;
+    text-align: center;
+}
+
+#principal{
+    position:absolute;
+    left:50%;
+    top:50%;
+    margin-left:-260px;
+    margin-top:-125px;
+    width: 520px;
+    height: 250px;
+    border: 2px solid #6495ED;
+    padding: 10px;
+    text-align: left;
+    font-family: calibri;
+    font-size: 13px;
+    border-radius: 50px;
+}
+
+#msg1 
+{
+    float: left;
+    padding: 10px;
+    font-family: Cambria;
+    font-size: 21px;
+    color: #6495ED;
+    text-align: left;
+}
+#msg2 
+{
+    float: left;
+    padding: 10px;
+    font-family: calibri;
+    color: #6495ED;
+    font-size: 15px;
+    text-align: left;
+}
+
+/*.ui-layout, .ui-layout-doc, .ui-layout-unit, .ui-layout-wrap, .ui-layout-bd, .ui-layout-hd{
+    border-color: white !important;
+} */
+
+/*ou coloca inline no style do componente assim: style="border-color: white !important;"*/

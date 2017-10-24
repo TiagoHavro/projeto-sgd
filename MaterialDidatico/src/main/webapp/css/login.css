@@ -1,0 +1,105 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : 25/08/2017, 20:16:13
+    Author     : Sandro J. Torres
+*/
+
+.imgFundo {
+    background-image:url(../imagens/bg-body.jpg);
+    width: 100%;
+}
+.form-signin
+{
+    max-width: 330px;
+    padding: 15px;
+    margin: 0 auto;
+}
+.form-signin .form-signin-heading, .form-signin .checkbox
+{
+    margin-bottom: 10px;
+}
+.form-signin .checkbox
+{
+    font-weight: normal;
+}
+.form-signin .form-control
+{
+    position: relative;
+    font-size: 16px;
+    height: auto;
+    padding: 10px;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+}
+.form-signin .form-control:focus
+{
+    z-index: 2;
+}
+.form-signin input[type="text"]
+{
+    margin-bottom: -1px;
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
+}
+.form-signin input[type="password"]
+{
+    margin-bottom: 10px;
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+}
+.account-wall
+{
+    margin-top: 20px;
+    padding: 40px 0px 20px 0px;
+    background-color: #f7f7f7;
+    -moz-box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.3);
+    -webkit-box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.3);
+    box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.3);
+}
+.login-title
+{
+    margin: 0;
+    width: 100%;
+    color: #fff;
+    background-color: #1684c2;
+    padding: 20px;
+    font-size: 36px;
+    font-weight: 400;
+    display: block;
+}
+.p-title {
+    margin: 0 0 10px 0;
+    padding: 0 0 20px 0;
+    width: 100%;
+    color: #fff;
+    font-size: 22px;
+    background-color: #1684c2;
+} 
+.esqueciSenha {float: left;}
+.cadastroSenha {float: right;}
+.p-footer {
+    margin:40px 0 0 0;
+    padding: 20px;
+    width: 100%;
+    color: #fff;
+    font-size: 12px;
+    background-color: #1684c2;
+} 
+.profile-img
+{
+    width: 130px;
+    height: 96px;
+    margin: 0 auto 10px;
+    display: block;
+    -moz-border-radius: 25%;
+    -webkit-border-radius: 25%;
+    border-radius: 25%;
+}
+.need-help {margin-top: 10px;}
+.new-account {display: block; margin-top: 10px;}
+.img-responsive {margin: 0 auto;}

@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:h="http://xmlns.jcp.org/jsf/html">
+    <h:head>
+        <title>SGD - Sistema de Gerenciamento Didático</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+        <link rel="shortcut icon" type="image/x-icon" href="/MaterialDidatico/imagens/favicon.ico"/>
+
+    </h:head>
+    <h:body>
+
+
+
+        <div style="text-align: center;">
+            <p:graphicImage value="/imagens/logo-300.png" alt="Logomarca SGD" title="Logomarca SGD"/>
+        </div>
+        <p:messages id="message" autoUpdate="true" closable="true"/>
+        <h:form>
+            <p:menubar styleClass="navbar navbar-default">
+                <p:menuitem value="Home" icon="fa fa-home"  style="font-size: small;"
+                            url="/index.xhtml"/>
+                <p:submenu label="Cadastros" icon="fa fa-database" style="font-size: small;" rendered="#{loginControle.logado==true}">
+                    <p:menuitem value="Usuário" icon="fa fa-users" style="font-size: small;"
+                                url="/app/usuario/list.xhtml"/>
+                    <p:menuitem value="Curso" icon="fa fa-users" style="font-size: small;"
+                                url="/app/curso/list.xhtml" rendered="#{loginControle.usuario.nivelAcesso!='ALUNO'}"/>
+                    <p:menuitem value="Disciplina" icon="fa fa-users" style="font-size: small;"
+                                url="/app/disciplina/list.xhtml"/>
+                    <p:menuitem value="Material" icon="fa fa-users" style="font-size: small;"
+                                url="/app/material/list.xhtml" rendered="#{loginControle.usuario.nivelAcesso!='ALUNO'}"/>
+                </p:submenu>
+                <p:menuitem value="Logar" icon="fa fa-unlock" style="font-size: small;" rendered="#{loginControle.logado!=true}"
+                            url="/login.xhtml"/>
+                <p:menuitem value="Sair" icon="fa fa-lock" style="font-size: small;" rendered="#{loginControle.logado==true}"
+                            action="#{loginControle.logoff()}"/>
+            </p:menubar>
+        </h:form>
+
+        <p:panel>
+            <ui:insert name="conteudo"/>
+
+            <f:facet name="footer">
+                <div style="text-align: center;"> 
+                    <h:outputText value="Desenvolvido pela SGD - Sistemas de Gerenciamento Didático"/>
+                </div>
+            </f:facet>
+        </p:panel>
+    </h:body>
+</html>

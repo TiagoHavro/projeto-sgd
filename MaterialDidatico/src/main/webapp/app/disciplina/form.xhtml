@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <h:panelGroup rendered="#{disciplinaControle.layoutForm}">
+        <h:form id="formDisciplina">
+            <p:panel header="Cadastro de Disciplina" style="font-size: small;" rendered="#{loginControle.usuario.nivelAcesso!='ALUNO'}">
+                <h:panelGrid id="painelProfessor" columns="2">
+
+                    <p:outputLabel value="Nome:" for="nome"/>
+                    <p:inputText id="nome"
+                                 required="true"
+                                 requiredMessage="O Nome é obrigatório"
+                                 value="#{disciplinaControle.entidade.nome}">
+                        <p:focus for="nome"/>
+                    </p:inputText>
+
+                    <p:outputLabel value="Professor:" for="professor"/>
+                    <p:autoComplete id="professor" maxResults="5" dropdown="true" size="16"
+                                    completeMethod="#{usuarioControle.autoCompleteProfessor}" 
+                                    value="#{disciplinaControle.entidade.usuario}"
+                                    converter="#{usuarioControle.converter()}"
+                                    var="item"
+                                    itemLabel="#{item.nome}"
+                                    itemValue="#{item}"/>
+
+                    <p:outputLabel value="Curso:" for="curso"/>
+                    <p:autoComplete id="curso" maxResults="5" dropdown="true" size="16"
+                                    completeMethod="#{cursoControle.AutoCompletePorNome}" 
+                                    value="#{disciplinaControle.entidade.curso}"
+                                    converter="#{cursoControle.converter()}"
+                                    var="item"
+                                    itemLabel="#{item.nome}"
+                                    itemValue="#{item}"/>
+                </h:panelGrid>
+
+                <f:facet name="footer">
+                    <p:commandButton value="Salvar" icon="fa fa-save"
+                                     action="#{disciplinaControle.salvar()}"
+                                     ajax="false"/>
+
+                    <p:commandButton value="Voltar" icon="fa fa-share"
+                                     action="#{disciplinaControle.voltar()}"
+                                     ajax="false" immediate="true"/>
+                </f:facet>
+            </p:panel>
+        </h:form>
+        <h:form id="formDisciplinaAluno">
+            <p:panel id="aluno" header="Cadastro de Disciplina" style="font-size: small;" rendered="#{loginControle.usuario.nivelAcesso=='ALUNO'}">
+                <h:panelGrid id="painelAluno" columns="2">
+
+                    <p:outputLabel value="Código de Acesso:" for="codAcesso"/>
+                    <p:inputText id="codAcesso" value="#{disciplinaControle.codAcesso}"/>
+
+                    <f:facet name="footer">
+                        <p:commandButton id="bottaoAdicionarDisciplina" value="ADICIONAR" icon="fa fa-plus" 
+                                         action="#{disciplinaControle.addItem()}"
+                                         ajax="false"/>
+                    </f:facet>
+                </h:panelGrid>
+
+                <p:panel id="painelDisciplina" header="DISCIPLINAS">
+                    <p:dataTable value="#{disciplinaControle.entidade.itensDisciplina}" 
+                                 var="item" 
+                                 emptyMessage="Disciplinas não encontradas"
+                                 editable="true"
+                                 reflow="true">
+
+                        <p:column headerText="Disciplina">
+                            <h:outputText value="#{item.disciplina.nome}"/>
+                        </p:column>
+                        <p:column headerText="Curso">
+                            <h:outputText value="#{item.disciplina.curso.nome}"/>
+                        </p:column>
+                        <p:column headerText="Professor">
+                            <h:outputText value="#{item.disciplina.usuario.nome}"/>
+                        </p:column>
+                        <p:column headerText="Remover" width="150" style="text-align:center">
+                            <p:commandButton icon="fa fa-times"
+                                             action="#{disciplinaControle.entidade.removeItem(item)}"
+                                             ajax="false"
+                                             style="font-size: small;"/>
+                        </p:column>
+                    </p:dataTable>
+                </p:panel>
+                <f:facet name="footer">
+                    <p:commandButton value="Salvar" icon="fa fa-save" style="font-size: small;"
+                                     action="#{disciplinaControle.salvar()}" update="message"
+                                     ajax="false"/>
+
+                    <p:commandButton value="Voltar" icon="fa fa-share" style="font-size: small;"
+                                     action="#{disciplinaControle.voltar()}"
+                                     ajax="false" immediate="true"/>
+                </f:facet>
+            </p:panel>
+        </h:form>
+    </h:panelGroup>
+</html>

@@ -1,0 +1,28 @@
+﻿$ git config --global user.name "meu-nome"
+$ git config --global user.email "email"
+$ git config --global color.ui auto
+
+$ git init - pasta atual
+$ git init meu-repos - cria pasta
+
+$ git clone "chave ssh" nome-do-diretorio
+$ git clone my-url meu-repositorio
+
+$ git status - lista de gits a serem comitados
+$ git add . - adiciona todos arquivos
+$ git commit - realiza um commit no branch atual
+$ git commit -m "informação sobre o commit"
+$ git commit -a -m "Pulando o git add "
+
+$ git reset - desfaz modificações de commit
+$ git stash - guarda modificações em outro lugar
+
+$ git log - historico de commits "q - para sair"
+$ git checkout - volta o estado do último commit
+
+$ git branch - lista branchs do repositório
+$ git merge nome-do-branch - incorpora mudanças
+
+$ git pull - baixa e incorpora mudanças no remoto
+$ git push - envia commits locais para repos. remoto
+$ git fetch - baixa mudanças feitas no remoto

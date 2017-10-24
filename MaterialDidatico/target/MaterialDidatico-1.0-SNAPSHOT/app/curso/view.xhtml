@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <h:panelGroup rendered="#{cursoControle.layoutView}">
+        <h:form>
+            <p:panel header="CURSO" style="font-size: small;font-family: cursive; text-align: center;">
+                <p:panel header="Id" style="font-size: small;font-family: cursive; text-align: center;">
+                    <h:outputText value="#{cursoControle.entidade.id}"/>
+                </p:panel>
+                <p:panel header="Nome" style="font-size: small;font-family: cursive; text-align: center;">
+                    <h:outputText value="#{cursoControle.entidade.nome}"/>
+                </p:panel>
+                <f:facet name="footer">
+                    <p:commandButton value="Voltar" icon="fa fa-share" style="font-size: small;font-family: cursive;"
+                                     action="#{cursoControle.voltar()}"
+                                     ajax="false" immediate="true"/>
+                </f:facet>
+            </p:panel>
+        </h:form>
+    </h:panelGroup>
+</html>

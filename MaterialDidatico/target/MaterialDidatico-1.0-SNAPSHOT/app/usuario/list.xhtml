@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <ui:composition template="/WEB-INF/template.xhtml">
+        <ui:define name="conteudo">
+            <h:panelGroup rendered="#{usuarioControle.layoutList}">
+                <h:form>
+                    <p:panel header="USUÁRIO" style="font-size: small; text-align: center;">
+                        <p:dataTable id="usuario" value="#{usuarioControle.listar}"
+                                     var="item" style="font-size: small;"
+                                     paginator="true" rows="10"
+                                     paginatorPosition="bottom"
+                                     emptyMessage="Usuário não encontrados"
+                                     selectionMode="single"
+                                     selection="#{usuarioControle.entidade}"
+                                     rowKey="#{item.id}"
+                                     reflow="true">
+                            
+                            <p:ajax event="rowSelect" update="novo alterar excluir view"/>
+                            <p:ajax event="rowUnselect" update="novo alterar excluir view"/>
+
+                            <p:column headerText="ID" width="50">
+                                <h:outputText value="#{item.id}"/>
+                            </p:column>
+                            <p:column headerText="Login">
+                                <h:outputText value="#{item.login}"/>
+                            </p:column>
+                            <p:column headerText="Nome">
+                                <h:outputText value="#{item.nome}"/>
+                            </p:column>
+                            <p:column headerText="E-mail">
+                                <h:outputText value="#{item.email}"/>
+                            </p:column>
+
+                            <f:facet name="footer">
+                                <p:commandButton id="novo" icon="fa fa-plus" style="font-size: small;"
+                                                 value="Novo"
+                                                 rendered="#{loginControle.usuario.nivelAcesso=='MASTER'}"
+                                                 actionListener="#{usuarioControle.novo()}"
+                                                 ajax="false"/>
+
+                                <p:commandButton id="alterar" icon="fa fa-pencil" style="font-size: small;"
+                                                 disabled="#{usuarioControle.entidade==null}"
+                                                 value="Alterar"
+                                                 actionListener="#{usuarioControle.alterar()}"
+                                                 ajax="false"/>
+                                
+                                <p:commandButton id="view" icon="fa fa-magic" style="font-size: small;"
+                                                 disabled="#{usuarioControle.entidade==null}"
+                                                 value="View"
+                                                 actionListener="#{usuarioControle.view()}"
+                                                 ajax="false"/>
+
+                                <p:commandButton id="excluir" icon="fa fa-trash-o" style="font-size: small;"
+                                                 disabled="#{usuarioControle.entidade==null}"
+                                                 rendered="#{loginControle.usuario.nivelAcesso=='MASTER'}"
+                                                 value="Excluir" update="message usuario"
+                                                 actionListener="#{usuarioControle.excluir()}">
+                                    
+                                    <p:confirm header="Confirmação" 
+                                               message="Deseja excluir o registro?" 
+                                               icon="ui-icon-alert" />
+                                    
+                                </p:commandButton>
+                                
+                                <p:confirmDialog global="true" closable="false" showEffect="fade" hideEffect="fade" style="font-size: small;">
+                                    <p:commandButton value="Sim" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+                                    <p:commandButton value="Não" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+                                </p:confirmDialog>
+
+                            </f:facet>
+                        </p:dataTable>
+                    </p:panel>
+                </h:form>
+            </h:panelGroup>
+            <ui:include src="form.xhtml"/>
+            <ui:include src="view.xhtml"/>
+        </ui:define>
+    </ui:composition>
+</html>
