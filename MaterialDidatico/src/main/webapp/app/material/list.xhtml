@@ -26,8 +26,8 @@ and open the template in the editor.
                                      rowKey="#{item.id}"
                                      reflow="true">
 
-                            <p:ajax event="rowSelect" update="novo alterar excluir view"/>
-                            <p:ajax event="rowUnselect" update="novo alterar excluir view"/>
+                            <p:ajax event="rowSelect" update="novo alterar excluir view download"/>
+                            <p:ajax event="rowUnselect" update="novo alterar excluir view download"/>
 
                             <p:column headerText="Id">
                                 <h:outputText value="#{item.id}"/>
@@ -55,6 +55,13 @@ and open the template in the editor.
                                                  value="View"
                                                  actionListener="#{materialControle.view()}"
                                                  ajax="false"/>
+                                
+                                <p:commandButton id="download" icon="fa fa-magic" style="font-size: small;font-family: cursive;"
+                                                 disabled="#{materialControle.entidade==null}"
+                                                 value="Download"
+                                                 ajax="false">
+                                    <p:fileDownload value="#{materialControle.fileMaterial}"/>
+                                </p:commandButton>
 
                                 <p:commandButton id="excluir" icon="fa fa-trash-o" style="font-size: small;font-family: cursive;"
                                                  disabled="#{materialControle.entidade==null}"
