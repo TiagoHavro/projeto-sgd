@@ -13,14 +13,30 @@ and open the template in the editor.
     <h:panelGroup rendered="#{materialControle.layoutView}">
         <h:form>
             <p:panel header="MATERIAL" style="font-size: small;font-family: cursive; text-align: center;">
-                <p:panel header="Id" style="font-size: small;font-family: cursive; text-align: center;">
-                    <h:outputText value="#{materialControle.entidade.id}"/>
-                </p:panel>
                 <p:panel header="Nome" style="font-size: small;font-family: cursive; text-align: center;">
                     <h:outputText value="#{materialControle.entidade.nome}"/>
                 </p:panel>
                 <p:panel header="Disciplina" style="font-size: small;font-family: cursive; text-align: center;">
                     <h:outputText value="#{materialControle.entidade.disciplina.nome}"/>
+                </p:panel>
+                <p:panel header="ARQUIVOS" style="text-align: center;">
+                    <p:dataTable value="#{itemMaterialControle.listarItemMaterial(materialControle.entidade)}"
+                                 var="itemMaterial" reflow="true"
+                                 emptyMessage="Arquivos não encontrados">
+                        <p:column headerText="Nome do Arquivo">
+                            <h:outputText value="#{itemMaterial.nomearq}"/>
+                        </p:column>
+                        <p:column headerText="Formato do Arquivo">
+                            <h:outputText value="#{itemMaterial.formato}"/>
+                        </p:column>
+                        <p:column headerText="Data de Cadastro">
+                            <h:outputText value="#{itemMaterial.dataCadastro}"/>
+                        </p:column>
+                        <p:column>
+                            <p:commandButton id="download" icon="fa fa-download" ajax="false" update="message" title="Baixar arquivo"
+                                             actionListener="#{materialControle.baixarMaterial(itemMaterial)}"/>
+                        </p:column>
+                    </p:dataTable>
                 </p:panel>
                 <f:facet name="footer">
                     <p:commandButton value="Voltar" icon="fa fa-share" style="font-size: small;font-family: cursive;"

@@ -5,8 +5,9 @@
     <class>br.com.sistemaM.entidade.Usuario</class>
     <class>br.com.sistemaM.entidade.Curso</class>
     <class>br.com.sistemaM.entidade.Disciplina</class>
-    <class>br.com.sistemaM.entidade.Material</class>
     <class>br.com.sistemaM.entidade.ItemDisciplina</class>
+    <class>br.com.sistemaM.entidade.Material</class>
+    <class>br.com.sistemaM.entidade.ItemMaterial</class>
     <exclude-unlisted-classes>true</exclude-unlisted-classes>
     <properties>
       <property name="javax.persistence.jdbc.url" value="jdbc:postgresql://localhost:5432/MaterialDidatico"/>

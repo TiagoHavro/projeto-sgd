@@ -18,11 +18,11 @@
         <div style="text-align: center;">
             <p:graphicImage value="/imagens/logo-300.png" alt="Logomarca SGD" title="Logomarca SGD"/>
         </div>
-        <p:messages id="message" autoUpdate="true" closable="true"/>
+        <p:messages id="message" autoUpdate="true" closable="true" showDetail="true"/>
         <h:form>
             <p:menubar styleClass="navbar navbar-default">
                 <p:menuitem value="Home" icon="fa fa-home"  style="font-size: small;"
-                            url="/index.xhtml"/>
+                            url="/index.xhtml" action="#{loginControle.limparContato()}"/>
                 <p:submenu label="Cadastros" icon="fa fa-database" style="font-size: small;" rendered="#{loginControle.logado==true}">
                     <p:menuitem value="Usuário" icon="fa fa-users" style="font-size: small;"
                                 url="/app/usuario/list.xhtml"/>
@@ -31,10 +31,10 @@
                     <p:menuitem value="Disciplina" icon="fa fa-users" style="font-size: small;"
                                 url="/app/disciplina/list.xhtml"/>
                     <p:menuitem value="Material" icon="fa fa-users" style="font-size: small;"
-                                url="/app/material/list.xhtml" rendered="#{loginControle.usuario.nivelAcesso!='ALUNO'}"/>
+                                url="/app/material/list.xhtml"/>
                 </p:submenu>
                 <p:menuitem value="Logar" icon="fa fa-unlock" style="font-size: small;" rendered="#{loginControle.logado!=true}"
-                            url="/login.xhtml"/>
+                            url="/login.xhtml" action="#{loginControle.limparContato()}"/>
                 <p:menuitem value="Sair" icon="fa fa-lock" style="font-size: small;" rendered="#{loginControle.logado==true}"
                             action="#{loginControle.logoff()}"/>
             </p:menubar>

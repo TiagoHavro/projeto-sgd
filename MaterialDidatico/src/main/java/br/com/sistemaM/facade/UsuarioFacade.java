@@ -14,6 +14,8 @@ import javax.persistence.Query;
 import br.com.sistemaM.persistencia.Transacional;
 import br.com.sistemaM.utils.Criptografia;
 import java.util.List;
+import javax.faces.application.FacesMessage;
+import javax.faces.context.FacesContext;
 
 /**
  *
@@ -40,6 +42,17 @@ public class UsuarioFacade extends AbstractFacade<Usuario> implements Serializab
             return (Usuario) q.getSingleResult();
         }
         return null;
+    }
+
+    public Usuario pesquisaUsuarioPorEmail(String email) {
+        Query q = em.createQuery("FROM Usuario AS u WHERE u.email='" + email + "'");
+        if (q.getResultList().size() == 1) {
+            return (Usuario) q.getSingleResult();
+        } else {
+            FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_WARN, "Usuário não encontrado no sistema", email);
+            FacesContext.getCurrentInstance().addMessage(null, message);
+            return null;
+        }
     }
 
     public List<Usuario> listarAlunoProfessor(String login) {

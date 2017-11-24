@@ -35,7 +35,6 @@ public class DisciplinaFacade extends AbstractFacade<Disciplina> implements Seri
     public List<Disciplina> listarProfessor(String login) {
         try {
             Query q = em.createQuery("SELECT DISTINCT (d) FROM Disciplina AS d WHERE d.usuario.login = '" + login + "'");
-            System.out.println("lista: " + q.getResultList().toString());
             return q.getResultList();
         } catch (Exception ex) {
             ex.printStackTrace();
@@ -46,7 +45,6 @@ public class DisciplinaFacade extends AbstractFacade<Disciplina> implements Seri
     public List<Disciplina> listarAluno(String login) {
         try {
             Query q = em.createQuery("SELECT DISTINCT (id.disciplina) FROM ItemDisciplina AS id WHERE id.usuario.login = '" + login + "'");
-            System.out.println("lista: " + q.getResultList().toString());
             return q.getResultList();
         } catch (Exception ex) {
             ex.printStackTrace();

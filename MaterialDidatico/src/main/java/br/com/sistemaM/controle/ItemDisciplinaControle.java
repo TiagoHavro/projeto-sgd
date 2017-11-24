@@ -5,11 +5,9 @@
  */
 package br.com.sistemaM.controle;
 
-import br.com.sistemaM.entidade.Curso;
 import br.com.sistemaM.entidade.ItemDisciplina;
 import br.com.sistemaM.enums.NivelAcesso;
 import br.com.sistemaM.facade.AbstractFacade;
-import br.com.sistemaM.facade.CursoFacade;
 import br.com.sistemaM.facade.ItemDisciplinaFacade;
 import java.io.Serializable;
 import java.util.List;

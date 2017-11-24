@@ -14,34 +14,21 @@ and open the template in the editor.
         <h:form id="formMaterial">
             <p:panel header="Cadastro de Material" style="font-size: small;font-family: cursive;">
                 <h:panelGrid id="painelGeral" columns="2">
-
                     <p:outputLabel value="Nome:" for="nome" style="font-size: small;font-family: cursive;"/>
                     <p:inputText id="nome" style="width:90%;"
                                  required="true"
                                  requiredMessage="O Nome é obrigatório"
-                                 value="#{materialControle.nome}">
+                                 value="#{materialControle.entidade.nome}">
                         <p:focus for="nome"/>
                     </p:inputText>
-                    
-                     <p:outputLabel value="Disciplina:" for="disciplina"/>
-                    
-                        <p:autoComplete id="disciplina" maxResults="5" dropdown="true"
-                                        completeMethod="#{disciplinaControle.AutoCompletePorNome}" 
-                                        value="#{materialControle.disciplina}"
-                                        converter="#{disciplinaControle.converter()}"
-                                        var="item"
-                                        itemLabel="#{item.nome}"
-                                        itemValue="#{item}"/>
-                      
-                    
-                </h:panelGrid>
-                <h:panelGrid id="painelupload" columns="1">
-                    
-                    <p:fileUpload fileUploadListener="#{materialControle.handleFileUpload}" mode="advanced" dragDropSupport="false"
-                                  label="Escolher" uploadLabel="Enviar" cancelLabel="Cancelar" 
-                                  update="messages" allowTypes="/(\.|\/)(doc|docx|xls|xlsx|ppt|pps|pdf)$/" />
-
-                         <p:growl id="messages" showDetail="true" />
+                    <p:outputLabel value="Disciplina:" for="disciplina"/>
+                    <p:autoComplete id="disciplina" maxResults="5" dropdown="true"
+                                    completeMethod="#{disciplinaControle.AutoCompletePorNome}" 
+                                    value="#{materialControle.entidade.disciplina}"
+                                    converter="#{disciplinaControle.converter()}"
+                                    var="item"
+                                    itemLabel="#{item.nome}"
+                                    itemValue="#{item}"/>
                 </h:panelGrid>
                 <f:facet name="footer">
                     <p:commandButton value="Salvar" icon="fa fa-save" style="font-size: small;font-family: cursive;"
