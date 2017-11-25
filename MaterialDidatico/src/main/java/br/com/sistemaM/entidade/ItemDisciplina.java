@@ -6,7 +6,6 @@
 package br.com.sistemaM.entidade;
 
 import java.io.Serializable;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -29,12 +28,12 @@ public class ItemDisciplina implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "idis_id", nullable = false)
+    @Column(name = "idi_id", nullable = false)
     private Long id;
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne
     @JoinColumn(name = "usu_id", nullable = false)
     private Usuario usuario;
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne
     @JoinColumn(name = "dis_id", nullable = false)
     private Disciplina disciplina;
     

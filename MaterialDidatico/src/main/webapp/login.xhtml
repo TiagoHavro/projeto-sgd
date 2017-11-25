@@ -37,7 +37,7 @@ and open the template in the editor.
                     <div class="col-sm-6 col-md-4 col-md-offset-4">
                         <div class="account-wall" style="padding: 25px;">
                             <img class="profile-img" src="imagens/logoSGD-350.png" alt="Logomarca SGD"/>
-                            <h:form styleClass="form-signin">
+                            <h:form id="loginForm" styleClass="form-signin">
                                 <p:inputText styleClass="form-control" id="login" placeholder="Usuário" value="#{loginControle.login}">
                                     <p:focus for="login"/>
                                 </p:inputText>
@@ -47,10 +47,11 @@ and open the template in the editor.
                                                  ajax="false"/>
                                 <p:messages style="font-size: small;" closable="true"/>
                                 <div class="esqueciSenha">
-                                    <a href="#" class="pull-right need-help">Esqueci a senha </a><span class="clearfix"></span>
+                                    <p:commandLink class="pull-right need-help clearfix" action="#{loginControle.contato()}"
+                                                   value="Esqueci a senha"/>
                                 </div>
                                 <div class="cadastroSenha">
-                                    <a href="#{loginControle.cadastroUsuario()}" class="new-account">Cadastro</a>
+                                    <p:commandLink class="new-account" action="#{loginControle.cadastroUsuario()}" value="Cadastro"/>
                                 </div>
                             </h:form>
                         </div>

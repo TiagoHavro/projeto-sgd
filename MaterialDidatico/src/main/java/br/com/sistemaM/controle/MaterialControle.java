@@ -6,14 +6,19 @@
 package br.com.sistemaM.controle;
 
 import br.com.sistemaM.entidade.Disciplina;
+import br.com.sistemaM.entidade.ItemMaterial;
 import br.com.sistemaM.entidade.Material;
 import br.com.sistemaM.facade.AbstractFacade;
+import br.com.sistemaM.facade.ItemMaterialFacade;
 import br.com.sistemaM.facade.MaterialFacade;
 import java.io.BufferedInputStream;
+import java.io.DataInputStream;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.OutputStream;
 import java.io.Serializable;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
@@ -23,8 +28,7 @@ import javax.inject.Named;
 import org.primefaces.event.FileUploadEvent;
 import org.primefaces.model.UploadedFile;
 import java.util.Date;
-import org.primefaces.model.DefaultStreamedContent;
-import org.primefaces.model.StreamedContent;
+import javax.faces.context.ExternalContext;
 
 /**
  *
@@ -36,12 +40,8 @@ public class MaterialControle extends AbstractControle<Material> implements Seri
 
     @Inject
     private MaterialFacade materialFacade;
-    private Material material;
     private String extensao;
     private String nomeArq;
-    private Date dataCadastro;
-    private Disciplina disciplina;
-    private String nome;
     private boolean layoutDownload = false;
 
     public MaterialControle() {
@@ -69,30 +69,6 @@ public class MaterialControle extends AbstractControle<Material> implements Seri
         this.nomeArq = nomeArq;
     }
 
-    public Date getDataCadastro() {
-        return dataCadastro;
-    }
-
-    public void setDataCadastro(Date dataCadastro) {
-        this.dataCadastro = dataCadastro;
-    }
-
-    public Disciplina getDisciplina() {
-        return disciplina;
-    }
-
-    public void setDisciplina(Disciplina disciplina) {
-        this.disciplina = disciplina;
-    }
-
-    public String getNome() {
-        return nome;
-    }
-
-    public void setNome(String nome) {
-        this.nome = nome;
-    }
-
     public boolean isLayoutDownload() {
         return layoutDownload;
     }
@@ -106,20 +82,32 @@ public class MaterialControle extends AbstractControle<Material> implements Seri
         super.setLayoutList(false);
     }
 
-    public StreamedContent getFileMaterial() {
+    public void baixarMaterial(ItemMaterial item) {
         try {
-            System.out.println("nome arq: " + super.getEntidade().getNomearq());
-            System.out.println("formato: " + super.getEntidade().getFormato());
-            String caminho = "C:\\Users\\Wesley\\Documents\\Projetos\\SGD-Projeto\\MaterialDidatico\\src\\main\\webapp\\imagens\\Upload\\" + super.getEntidade().getNomearq();
-            InputStream stream = FacesContext.getCurrentInstance().getExternalContext().getResourceAsStream(caminho);
-            StreamedContent file = new DefaultStreamedContent(stream, "application/" + super.getEntidade().getFormato(), super.getEntidade().getNomearq());
-            System.out.println("file: " + file.toString());
-            mensagem("sucesso: ", FacesMessage.SEVERITY_INFO, "");
-            return file;
-        } catch (Exception e) {
+            FacesContext fc = FacesContext.getCurrentInstance();
+            ExternalContext ec = fc.getExternalContext();
+            String caminho = ec.getRealPath("").replace("\\target\\MaterialDidatico-1.0-SNAPSHOT\\", "\\src\\main\\webapp\\arquivos\\") 
+                    + item.getId() + "\\" + item.getNomearq();
+            File arquivo = new File(caminho);
+            if (!arquivo.exists()) {
+                mensagem("Arquivo não encontrado: ", FacesMessage.SEVERITY_FATAL, item.getNomearq());
+            }
+            ec.responseReset();
+            ec.setResponseContentType(item.getFormato());
+            ec.setResponseHeader("Content-Disposition", "attachment; filename=\"" + item.getNomearq() + "\"");
+            OutputStream output = ec.getResponseOutputStream();
+            InputStream stream = new DataInputStream(new FileInputStream(arquivo));
+            int read = 0;
+            byte[] bytes = new byte[1024];
+            while ((read = stream.read(bytes)) != -1) {
+                output.write(bytes, 0, read);
+            }
+            output.flush();
+            fc.responseComplete();
+            mensagem("Sucesso ao fazer download do arquivo: ", FacesMessage.SEVERITY_INFO, item.getNomearq());
+        } catch (IOException e) {
             e.printStackTrace();
-            mensagem("deu erro: ", FacesMessage.SEVERITY_INFO, "");
-            return null;
+            mensagem("Erro ao fazer download do arquivo: ", FacesMessage.SEVERITY_FATAL, item.getNomearq());
         }
     }
 
@@ -127,43 +115,88 @@ public class MaterialControle extends AbstractControle<Material> implements Seri
         try {
             UploadedFile arq = event.getFile();
             InputStream in = new BufferedInputStream(arq.getInputstream());
-            String caminho = "C:\\Users\\Wesley\\Documents\\Projetos\\SGD-Projeto\\MaterialDidatico\\src\\main\\webapp\\imagens\\Upload\\" + arq.getFileName();
+            String caminho = FacesContext.getCurrentInstance().getExternalContext().getRealPath("").replace("\\target\\MaterialDidatico-1.0-SNAPSHOT\\", "\\src\\main\\webapp\\arquivos\\") + super.getEntidade().getId() + "\\" + arq.getFileName();
             File fileAnexo = new File(caminho);
             fileAnexo.getParentFile().mkdirs();
-            extensao = arq.getFileName().substring(arq.getFileName().lastIndexOf("."), arq.getFileName().length());
+            extensao = arq.getFileName().substring(arq.getFileName().lastIndexOf("."), arq.getFileName().length()).replace(".", "");
             nomeArq = arq.getFileName();
+            try {
+                super.getEntidade().addItem(super.getEntidade(), extensao, nomeArq);
+                materialFacade.salvar(super.getEntidade());
+            } catch (Exception ex) {
+                ex.printStackTrace();
+                mensagem("Erro ao salvar arquivo: ", FacesMessage.SEVERITY_FATAL, nomeArq);
+            }
             FileOutputStream fout = new FileOutputStream(caminho);
             while (in.available() != 0) {
                 fout.write(in.read());
             }
             fout.close();
-            mensagem("sucesso: ", FacesMessage.SEVERITY_INFO, "");
+            mensagem("Sucesso ao fazer upload do arquivo: ", FacesMessage.SEVERITY_INFO, nomeArq);
         } catch (IOException e) {
             e.printStackTrace();
-            mensagem("deu erro: ", FacesMessage.SEVERITY_INFO, "");
+            mensagem("Erro ao fazer upload do arquivo: ", FacesMessage.SEVERITY_FATAL, nomeArq);
         }
+    }
+
+    public String excluirItem(ItemMaterial item, Material mat) {
+        try {
+            FacesContext fc = FacesContext.getCurrentInstance();
+            ExternalContext ec = fc.getExternalContext();
+            String caminho = ec.getRealPath("").replace("\\target\\MaterialDidatico-1.0-SNAPSHOT\\", "\\src\\main\\webapp\\arquivos\\") + item.getMaterial().getId() + "\\" + item.getNomearq();
+            File arquivo = new File(caminho);
+            if (!arquivo.exists()) {
+                mensagem("Arquivo não encontrado: ", FacesMessage.SEVERITY_FATAL, item.getNomearq());
+                return null;
+            }
+            mat.removeItem(item);
+            materialFacade.salvar(mat);
+            arquivo.delete();
+            mensagem("Excluido com sucesso ", FacesMessage.SEVERITY_INFO, "");
+            return "list?faces-redirect=true";
+        } catch (Exception e) {
+            e.printStackTrace();
+            mensagem("Erro ao excluir o arquivo: ", FacesMessage.SEVERITY_FATAL, item.getNomearq());
+            return null;
+        }
+    }
+
+    public String excluir(Material material) {
+        FacesContext fc = FacesContext.getCurrentInstance();
+        ExternalContext ec = fc.getExternalContext();
+        for (ItemMaterial it : material.getItensMaterial()) {
+            String caminho = ec.getRealPath("").replace("\\target\\MaterialDidatico-1.0-SNAPSHOT\\", "\\src\\main\\webapp\\arquivos\\") + material.getId() + "\\" + it.getNomearq();
+            File arquivo = new File(caminho);
+            if (!arquivo.exists()) {
+                mensagem("Arquivo não encontrado: ", FacesMessage.SEVERITY_FATAL, it.getNomearq());
+                return null;
+            }
+        }
+        try {
+            materialFacade.excluir(material);
+        } catch (Exception e) {
+            e.printStackTrace();
+            mensagem("Erro ao excluir o arquivo", FacesMessage.SEVERITY_FATAL, "");
+            return null;
+        }
+        mensagem("Excluido com sucesso ", FacesMessage.SEVERITY_INFO, "");
+        return "list?faces-redirect=true";
     }
 
     @Override
     public String salvar() {
         try {
-
             Material m = new Material();
-            m.setNome(nome);
-            m.setNomearq(nomeArq);
-            m.setFormato(extensao);
+            m.setNome(super.getEntidade().getNome());
             m.setDataCadastro(new Date());
-            m.setDisciplina(disciplina);
+            m.setDisciplina(super.getEntidade().getDisciplina());
             materialFacade.salvar(m);
-            mensagem("Salvo com sucesso: ", FacesMessage.SEVERITY_INFO, "");
+            mensagem("Salvo com sucesso: ", FacesMessage.SEVERITY_INFO, super.getEntidade().getNome());
             voltar();
-
         } catch (Exception ex) {
             ex.printStackTrace();
-            FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_WARN, ex.getMessage(), "");
-            FacesContext.getCurrentInstance().addMessage(null, message);
+            mensagem("Erro ao salvar", FacesMessage.SEVERITY_FATAL, ex.getMessage());
         }
         return null;
-
     }
 }

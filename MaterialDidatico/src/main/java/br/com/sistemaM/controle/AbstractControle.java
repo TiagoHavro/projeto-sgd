@@ -11,8 +11,6 @@ import java.io.Serializable;
 import java.util.List;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
-import org.primefaces.event.CellEditEvent;
-import org.primefaces.event.RowEditEvent;
 
 /**
  *
@@ -109,23 +107,6 @@ public abstract class AbstractControle<T> implements Serializable {
             converterGenerico = new ConverterGenerico(getFacade());
         }
         return converterGenerico;
-    }
-
-    public void onRowEdit(RowEditEvent event) {
-        mensagem("Sucesso!", FacesMessage.SEVERITY_WARN, "Celula Editada");
-    }
-     
-    public void onRowCancel(RowEditEvent event) {
-        mensagem("Atenção!", FacesMessage.SEVERITY_WARN, "Edit Cancelado");
-    }
-     
-    public void onCellEdit(CellEditEvent event) {
-        Object oldValue = event.getOldValue();
-        Object newValue = event.getNewValue();
-         
-        if(newValue != null && !newValue.equals(oldValue)) {
-            mensagem("Celula Editada", FacesMessage.SEVERITY_INFO, "Old: " + oldValue + ", New:" + newValue);
-        }
     }
     
     protected void mensagem(String msg, FacesMessage.Severity tipo, String detail) {

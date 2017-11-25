@@ -14,7 +14,7 @@ and open the template in the editor.
     <ui:composition template="/WEB-INF/template.xhtml">
         <ui:define name="conteudo">
             <h:panelGroup rendered="#{materialControle.layoutList}">
-                <h:form>
+                <h:form id="materialForm">
                     <p:panel header="MATERIAL" style="font-size: small;font-family: cursive; text-align: center;">
                         <p:dataTable id="material" value="#{materialControle.listar}"
                                      var="item" style="font-size: small;font-family: cursive;"
@@ -26,11 +26,11 @@ and open the template in the editor.
                                      rowKey="#{item.id}"
                                      reflow="true">
 
-                            <p:ajax event="rowSelect" update="novo alterar excluir view download"/>
-                            <p:ajax event="rowUnselect" update="novo alterar excluir view download"/>
+                            <p:ajax event="rowSelect" update="novo alterar view upload"/>
+                            <p:ajax event="rowUnselect" update="novo alterar view upload"/>
 
-                            <p:column headerText="Id">
-                                <h:outputText value="#{item.id}"/>
+                            <p:column style="width:16px">
+                                <p:rowToggler />
                             </p:column>
                             <p:column headerText="Nome">
                                 <h:outputText value="#{item.nome}"/>
@@ -38,35 +38,11 @@ and open the template in the editor.
                             <p:column headerText="Disciplina">
                                 <h:outputText value="#{item.disciplina.nome}"/>
                             </p:column>
-                            <f:facet name="footer">
-                                <p:commandButton id="novo" icon="fa fa-plus" style="font-size: small;font-family: cursive;"
-                                                 value="Novo"
-                                                 actionListener="#{materialControle.novo()}"
-                                                 ajax="false"/>
-
-                                <p:commandButton id="alterar" icon="fa fa-pencil" style="font-size: small;font-family: cursive;"
-                                                 disabled="#{materialControle.entidade==null}"
-                                                 value="Alterar"
-                                                 actionListener="#{materialControle.alterar()}"
-                                                 ajax="false"/>
-
-                                <p:commandButton id="view" icon="fa fa-magic" style="font-size: small;font-family: cursive;"
-                                                 disabled="#{materialControle.entidade==null}"
-                                                 value="View"
-                                                 actionListener="#{materialControle.view()}"
-                                                 ajax="false"/>
-                                
-                                <p:commandButton id="download" icon="fa fa-magic" style="font-size: small;font-family: cursive;"
-                                                 disabled="#{materialControle.entidade==null}"
-                                                 value="Download"
-                                                 ajax="false">
-                                    <p:fileDownload value="#{materialControle.fileMaterial}"/>
-                                </p:commandButton>
-
-                                <p:commandButton id="excluir" icon="fa fa-trash-o" style="font-size: small;font-family: cursive;"
-                                                 disabled="#{materialControle.entidade==null}"
-                                                 value="Excluir"
-                                                 action="#{materialControle.excluir()}"
+                            <p:column headerText="Informações">
+                                <h:outputText value="#{item.disciplina.usuario.nome}" rendered="#{loginControle.usuario.nivelAcesso=='ALUNO'}"/>
+                                <p:commandButton id="excluir" icon="fa fa-trash-o" title="Excluir"
+                                                 action="#{materialControle.excluir(item)}"
+                                                 rendered="#{loginControle.usuario.nivelAcesso!='ALUNO'}"
                                                  update="message material">
 
                                     <p:confirm header="Confirmação" 
@@ -74,8 +50,79 @@ and open the template in the editor.
                                                icon="ui-icon-alert" />
 
                                 </p:commandButton>
+                                <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+                                    <p:commandButton value="Yes" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+                                    <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+                                </p:confirmDialog>
+                            </p:column>
+                            <p:rowExpansion>
+                                <p:panel header="ARQUIVOS" style="text-align: center;">
+                                    <p:dataTable value="#{item.itensMaterial}"
+                                                 var="itemMaterial" reflow="true"
+                                                 emptyMessage="Arquivos não encontrados">
+                                        <p:column headerText="Nome do Arquivo">
+                                            <h:outputText value="#{itemMaterial.nomearq}"/>
+                                        </p:column>
+                                        <p:column headerText="Formato do Arquivo">
+                                            <h:outputText value="#{itemMaterial.formato}"/>
+                                        </p:column>
+                                        <p:column headerText="Data de Cadastro">
+                                            <h:outputText value="#{itemMaterial.dataCadastro}"/>
+                                        </p:column>
+                                        <p:column headerText="Opções">
+                                            <p:commandButton id="download" icon="fa fa-download" ajax="false" update="message" title="Baixar arquivo"
+                                                             actionListener="#{materialControle.baixarMaterial(itemMaterial)}"/>
+
+                                            <p:commandButton id="excluirItem" icon="fa fa-trash-o" title="Excluir Arquivo"
+                                                             action="#{materialControle.excluirItem(itemMaterial, item)}"
+                                                             rendered="#{loginControle.usuario.nivelAcesso!='ALUNO'}"
+                                                             update="message materialForm:material">
+
+                                                <p:confirm header="Confirmação" 
+                                                           message="Deseja excluir o registro?" 
+                                                           icon="ui-icon-alert" />
+
+                                            </p:commandButton>
+                                            <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+                                                <p:commandButton value="Yes" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+                                                <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+                                            </p:confirmDialog>
+                                        </p:column>
+                                    </p:dataTable>
+                                </p:panel>
+                            </p:rowExpansion>
+                            <f:facet name="footer">
+                                <p:commandButton id="novo" icon="fa fa-plus"
+                                                 value="Novo"
+                                                 actionListener="#{materialControle.novo()}"
+                                                 ajax="false"/>
+
+                                <p:commandButton id="alterar" icon="fa fa-pencil"
+                                                 disabled="#{materialControle.entidade==null}"
+                                                 value="Alterar"
+                                                 actionListener="#{materialControle.alterar()}"
+                                                 ajax="false"/>
+
+                                <p:commandButton id="view" icon="fa fa-magic"
+                                                 disabled="#{materialControle.entidade==null}"
+                                                 value="View"
+                                                 actionListener="#{materialControle.view()}"
+                                                 ajax="false"/>
+
+                                <p:commandButton id="upload" icon="fa fa-upload"
+                                                 disabled="#{materialControle.entidade==null}"
+                                                 rendered="#{loginControle.usuario.nivelAcesso!='ALUNO'}"
+                                                 value="Upload" update="material" title="Adicionar arquivo"
+                                                 onclick="PF('uploadDialog').show();"/>
                             </f:facet>
                         </p:dataTable>
+                        <p:dialog widgetVar="uploadDialog" closable="true">
+                            <h:panelGrid id="painelupload" columns="1">
+                                <p:fileUpload fileUploadListener="#{materialControle.handleFileUpload}" mode="advanced" dragDropSupport="false"
+                                              label="Escolher" uploadLabel="Enviar" cancelLabel="Cancelar" oncomplete="PF('uploadDialog').hide();"
+                                              update="message" allowTypes="/(\.|\/)(doc|docx|xls|xlsx|ppt|pps|pdf)$/" />
+                            </h:panelGrid>
+                        </p:dialog>
                     </p:panel>
                 </h:form>
             </h:panelGroup>

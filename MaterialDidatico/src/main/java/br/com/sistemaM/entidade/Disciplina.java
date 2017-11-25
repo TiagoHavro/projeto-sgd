@@ -48,7 +48,7 @@ public class Disciplina implements Serializable {
             mappedBy = "disciplina",
             orphanRemoval = true)
     private List<ItemDisciplina> itensDisciplina = new ArrayList<>();
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne
     @JoinColumn(name = "usu_id", nullable = false)
     private Usuario usuario;
     
