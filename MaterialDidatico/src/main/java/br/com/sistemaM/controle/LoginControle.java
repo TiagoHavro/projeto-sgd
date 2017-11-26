@@ -51,7 +51,7 @@ public class LoginControle implements Serializable {
 
     public void enviaEmail() {
         try {
-            mensagem.setTitulo("SGD Nova Senha");
+            mensagem.setTitulo("SGD - Nova Senha");
             usuario = usuarioFacade.pesquisaUsuarioPorEmail(mensagem.getDestino());
             if (usuario != null) {
                 UUID uuid = UUID.randomUUID();
@@ -70,6 +70,18 @@ public class LoginControle implements Serializable {
         }
     }
 
+    public void enviaEmailContato() {
+        try {
+            mensagem.setTitulo("SGD - Duvidas Usuário");
+            mensagem.setDestino("sistemadidatico@gmail.com");
+            EmailUtils.enviaEmail(mensagem);
+            limpaMensagem();
+        } catch (EmailException ex) {
+            ex.printStackTrace();
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro! Occoreu um erro ao enviar a mensagem.", ""));
+        }
+    }
+
     public void limpaMensagem() {
         mensagem = new Mensagem();
     }
@@ -79,8 +91,8 @@ public class LoginControle implements Serializable {
         CodEmailIgualCodEmailDigitado = false;
     }
 
-    public String contato() {
-        return "contato.xhtml";
+    public String email() {
+        return "email.xhtml";
     }
 
     public void compararCodEmail() {

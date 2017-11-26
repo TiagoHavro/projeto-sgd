@@ -40,6 +40,19 @@ public class CursoControle extends AbstractControle<Curso> implements Serializab
     }
 
     @Override
+    public String salvar() {
+        try {
+            cursoFacade.salvar(getEntidade());
+            mensagem("Salvo com sucesso ", FacesMessage.SEVERITY_INFO, "");
+            return "/app/disciplina/list.xhtml";
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            mensagem("Erro ao salvar", FacesMessage.SEVERITY_FATAL, ex.getMessage());
+        }
+        return null;
+    }
+
+    @Override
     public List<Curso> getListar() throws Exception {
         try {
             if (loginControle.getUsuario().getNivelAcesso().equals(NivelAcesso.PROFESSOR)) {

@@ -42,7 +42,7 @@ public class EmailUtils {
         email.setMsg(mensagem.getMensagem());
         email.addTo(mensagem.getDestino());
         email.send();
-        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "E-mail enviado com sucesso para: " + mensagem.getDestino(), "Informação"));
+        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "E-mail enviado com sucesso para: " ,  mensagem.getDestino()));
     }
 
 }

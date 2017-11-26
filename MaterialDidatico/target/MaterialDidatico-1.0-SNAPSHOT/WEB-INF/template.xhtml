@@ -24,19 +24,27 @@
                 <p:menuitem value="Home" icon="fa fa-home"  style="font-size: small;"
                             url="/index.xhtml" action="#{loginControle.limparContato()}"/>
                 <p:submenu label="Cadastros" icon="fa fa-database" style="font-size: small;" rendered="#{loginControle.logado==true}">
-                    <p:menuitem value="Usuário" icon="fa fa-users" style="font-size: small;"
+                    <p:menuitem value="Usuário" icon="fa fa-user" style="font-size: small;"
                                 url="/app/usuario/list.xhtml"/>
-                    <p:menuitem value="Curso" icon="fa fa-users" style="font-size: small;"
+                    <p:menuitem value="Curso" icon="fa fa-graduation-cap" style="font-size: small;"
                                 url="/app/curso/list.xhtml" rendered="#{loginControle.usuario.nivelAcesso!='ALUNO'}"/>
-                    <p:menuitem value="Disciplina" icon="fa fa-users" style="font-size: small;"
+                    <p:menuitem value="Disciplina" icon="fa fa-th" style="font-size: small;"
                                 url="/app/disciplina/list.xhtml"/>
-                    <p:menuitem value="Material" icon="fa fa-users" style="font-size: small;"
+                    <p:menuitem value="Material" icon="fa fa-file" style="font-size: small;"
                                 url="/app/material/list.xhtml"/>
                 </p:submenu>
                 <p:menuitem value="Logar" icon="fa fa-unlock" style="font-size: small;" rendered="#{loginControle.logado!=true}"
                             url="/login.xhtml" action="#{loginControle.limparContato()}"/>
                 <p:menuitem value="Sair" icon="fa fa-lock" style="font-size: small;" rendered="#{loginControle.logado==true}"
                             action="#{loginControle.logoff()}"/>
+                <p:menuitem value="Entre em Contato" icon="fa fa-envelope" style="font-size: small;"
+                            url="/contato.xhtml"/>
+                <p:submenu label="Criado Por" style="float: right !important; font-size: small;">
+                    <p:menuitem value="INGRIDY DE OLIVEIRA SILVA"/>
+                    <p:menuitem value="SANDRO DE JESUS TORRES"/>
+                    <p:menuitem value="TIAGO SILVA NEVES HAVRO DE SÁ"/>
+                    <p:menuitem value="WESLEI ADONAI PEREIRA DA SILVA"/>
+                </p:submenu>
             </p:menubar>
         </h:form>
 
@@ -45,7 +53,7 @@
 
             <f:facet name="footer">
                 <div style="text-align: center;"> 
-                    <h:outputText value="Desenvolvido pela SGD - Sistemas de Gerenciamento Didático"/>
+                    <h:outputText value="ISTW Soluções  |  Todos os direitos reservados."/>
                 </div>
             </f:facet>
         </p:panel>
